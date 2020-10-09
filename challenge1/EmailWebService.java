@@ -1,4 +1,4 @@
-package SpaceCadets.challenge1;
+package challenge1;
 
 import java.io.*;
 import java.net.*;
@@ -11,17 +11,17 @@ public class EmailWebService {
     public static void main(String[] args) throws IOException {
 
         //Receive ID input from user
-        String id = getInput("Input your email ID: ");
+        String id = GetInput("Input your email ID: ");
         //Finds tagged line
-        String nameLine = fetchTaggedLine(id);
+        String nameLine = FetchTaggedLine(id);
         //Reduces line to just name
-        String name = extractName(nameLine);
+        String name = ExtractName(nameLine);
 
         System.out.println(name);
     }
 
     //Receive input from console given a prompt message that will precede it
-    public static String getInput(String prompt) throws IOException {
+    public static String GetInput(String prompt) throws IOException {
 
         //Open a reader object that receives input from the user input
         BufferedReader consoleBufferedReader = new BufferedReader(new InputStreamReader(System.in));
@@ -40,7 +40,7 @@ public class EmailWebService {
     }
 
     //Fetch HTML line that contains the subjects name
-    public static String fetchTaggedLine(String id) throws IOException {
+    public static String FetchTaggedLine(String id) throws IOException {
 
         //Create a URL by concatenating base URL with ID
         URL fullURL = new URL(URL_STUB + id);
@@ -49,13 +49,15 @@ public class EmailWebService {
         BufferedReader webBufferedReader = new BufferedReader(new InputStreamReader(fullURL.openStream()));
 
         String nameLine = null;
-
         //Read through to desired line
         while (nameLine == null) {
+
             //Get current read line and trim white spaces
             String line = webBufferedReader.readLine().trim();
+
             //If line starts with TITLE_LOOKUP assign as nameLine
             if (line.indexOf(TAG_LOOKUP) == 0) nameLine = line;
+
         }
 
         //Close web reader
@@ -67,7 +69,7 @@ public class EmailWebService {
 
 
     //Trims tagged line to just name
-    public static String extractName(String nameLine){
+    public static String ExtractName(String nameLine){
         return nameLine.substring(TAG_LOOKUP.length(), nameLine.indexOf("|"));
     }
 }
