@@ -6,6 +6,7 @@ import java.net.*;
 public class EmailWebService {
 
     public static final String URL_STUB = "https://www.ecs.soton.ac.uk/people/";
+    public static final String TITLE_ERROR_LOOKUP = "<title>People | Electronics and Computer Science | University of Southampton</title>";
     public static final String TAG_LOOKUP = "<title>";
 
     public static void main(String[] args) throws IOException {
@@ -14,10 +15,17 @@ public class EmailWebService {
         String id = GetInput("Input your email ID: ");
         //Finds tagged line
         String nameLine = FetchTaggedLine(id);
-        //Reduces line to just name
-        String name = ExtractName(nameLine);
 
-        System.out.println(name);
+        //Name variable declaration
+        String name;
+        if(nameLine != null){
+            //Reduces line to just name
+            System.out.println(ExtractName(nameLine));
+        }
+        else{
+            //Print Error
+            System.out.println("Error retrieving user, cannot print name.");
+        }
     }
 
     //Receive input from console given a prompt message that will precede it
@@ -59,6 +67,9 @@ public class EmailWebService {
             if (line.indexOf(TAG_LOOKUP) == 0) nameLine = line;
 
         }
+
+        //If the username did not return a profile set the line to null
+        if(nameLine.equals(TITLE_ERROR_LOOKUP)) nameLine = null;
 
         //Close web reader
         webBufferedReader.close();
