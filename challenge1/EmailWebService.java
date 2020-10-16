@@ -3,6 +3,11 @@ package challenge1;
 import java.io.*;
 import java.net.*;
 
+/**
+ * Web service to  take in email ID and get a person's name.
+ *
+ * @author James Parkes jp4g20@soton.ac.uk
+ */
 public class EmailWebService {
 
     //URL to use to find users
